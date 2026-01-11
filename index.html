@@ -278,92 +278,91 @@
                 <button class="btn btn-primary" onclick="nextStep()">Iniciar Avaliação</button>
             </div>
 
-            <!-- Step 2: Form -->
-            <div id="step-2" class="survey-step" style="display: none;">
-                <form id="surveyForm" action="https://formsubmit.co/el/ganazu" method="POST">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_subject" value="Nova Avaliação do Sistema">
+            <form id="surveyForm" action="https://formsubmit.co/sergioaraujo709@gmail.com" method="POST">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_subject" value="Nova Avaliação do Sistema">
+                <input type="hidden" name="_template" value="table">
 
-                    <div class="questions-container">
-                        <div class="q-group">
-                            <label>1. Eu usaria este sistema frequentemente.</label>
-                            <select name="q1" class="form-select" required>
-                                <option value="">Selecione...</option>
-                                <option value="Concordo Totalmente">Concordo Totalmente</option>
-                                <option value="Concordo">Concordo</option>
-                                <option value="Neutro">Neutro</option>
-                                <option value="Discordo">Discordo</option>
-                                <option value="Discordo Totalmente">Discordo Totalmente</option>
-                            </select>
-                        </div>
-                        <div class="q-group">
-                            <label>2. O sistema foi fácil de entender.</label>
-                            <select name="q2" class="form-select" required>
-                                <option value="">Selecione...</option>
-                                <option value="Concordo Totalmente">Concordo Totalmente</option>
-                                <option value="Concordo">Concordo</option>
-                                <option value="Neutro">Neutro</option>
-                                <option value="Discordo">Discordo</option>
-                                <option value="Discordo Totalmente">Discordo Totalmente</option>
-                            </select>
-                        </div>
-                        <div class="q-group">
-                            <label>3. Tudo no sistema parece funcionar bem juntos.</label>
-                            <select name="q3" class="form-select" required>
-                                <option value="">Selecione...</option>
-                                <option value="Concordo Totalmente">Concordo Totalmente</option>
-                                <option value="Concordo">Concordo</option>
-                                <option value="Neutro">Neutro</option>
-                                <option value="Discordo">Discordo</option>
-                                <option value="Discordo Totalmente">Discordo Totalmente</option>
-                            </select>
-                        </div>
-                        <div class="q-group">
-                            <label>4. Eu acho que a maioria das pessoas poderia aprender a usar este sistema
-                                rapidamente.</label>
-                            <select name="q4" class="form-select" required>
-                                <option value="">Selecione...</option>
-                                <option value="Concordo Totalmente">Concordo Totalmente</option>
-                                <option value="Concordo">Concordo</option>
-                                <option value="Neutro">Neutro</option>
-                                <option value="Discordo">Discordo</option>
-                                <option value="Discordo Totalmente">Discordo Totalmente</option>
-                            </select>
-                        </div>
-                        <div class="q-group">
-                            <label>5. Me senti confiante ao usar o sistema.</label>
-                            <select name="q5" class="form-select" required>
-                                <option value="">Selecione...</option>
-                                <option value="Concordo Totalmente">Concordo Totalmente</option>
-                                <option value="Concordo">Concordo</option>
-                                <option value="Neutro">Neutro</option>
-                                <option value="Discordo">Discordo</option>
-                                <option value="Discordo Totalmente">Discordo Totalmente</option>
-                            </select>
-                        </div>
-
-                        <div class="q-group">
-                            <label id="ratingLabel">6. Como eu avalio este Sistema:</label>
-                            <div class="star-rating">
-                                <span data-value="1">★</span><span data-value="2">★</span><span
-                                    data-value="3">★</span><span data-value="4">★</span><span data-value="5">★</span>
-                            </div>
-                            <input type="hidden" name="rating" id="ratingValue" required>
-                        </div>
+                <div class="questions-container">
+                    <div class="q-group">
+                        <label>1. Eu usaria este sistema frequentemente.</label>
+                        <select name="1_Frequencia_Uso" class="form-select" required>
+                            <option value="">Selecione...</option>
+                            <option value="Concordo Totalmente">Concordo Totalmente</option>
+                            <option value="Concordo">Concordo</option>
+                            <option value="Neutro">Neutro</option>
+                            <option value="Discordo">Discordo</option>
+                            <option value="Discordo Totalmente">Discordo Totalmente</option>
+                        </select>
+                    </div>
+                    <div class="q-group">
+                        <label>2. O sistema foi fácil de entender.</label>
+                        <select name="2_Facil_Entender" class="form-select" required>
+                            <option value="">Selecione...</option>
+                            <option value="Concordo Totalmente">Concordo Totalmente</option>
+                            <option value="Concordo">Concordo</option>
+                            <option value="Neutro">Neutro</option>
+                            <option value="Discordo">Discordo</option>
+                            <option value="Discordo Totalmente">Discordo Totalmente</option>
+                        </select>
+                    </div>
+                    <div class="q-group">
+                        <label>3. Tudo no sistema parece funcionar bem juntos.</label>
+                        <select name="3_Integracao" class="form-select" required>
+                            <option value="">Selecione...</option>
+                            <option value="Concordo Totalmente">Concordo Totalmente</option>
+                            <option value="Concordo">Concordo</option>
+                            <option value="Neutro">Neutro</option>
+                            <option value="Discordo">Discordo</option>
+                            <option value="Discordo Totalmente">Discordo Totalmente</option>
+                        </select>
+                    </div>
+                    <div class="q-group">
+                        <label>4. Eu acho que a maioria das pessoas poderia aprender a usar este sistema
+                            rapidamente.</label>
+                        <select name="4_Facilidade_Aprendizado" class="form-select" required>
+                            <option value="">Selecione...</option>
+                            <option value="Concordo Totalmente">Concordo Totalmente</option>
+                            <option value="Concordo">Concordo</option>
+                            <option value="Neutro">Neutro</option>
+                            <option value="Discordo">Discordo</option>
+                            <option value="Discordo Totalmente">Discordo Totalmente</option>
+                        </select>
+                    </div>
+                    <div class="q-group">
+                        <label>5. Me senti confiante ao usar o sistema.</label>
+                        <select name="5_Confianca" class="form-select" required>
+                            <option value="">Selecione...</option>
+                            <option value="Concordo Totalmente">Concordo Totalmente</option>
+                            <option value="Concordo">Concordo</option>
+                            <option value="Neutro">Neutro</option>
+                            <option value="Discordo">Discordo</option>
+                            <option value="Discordo Totalmente">Discordo Totalmente</option>
+                        </select>
                     </div>
 
-                    <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Enviar Avaliação</button>
-                </form>
-            </div>
+                    <div class="q-group">
+                        <label id="ratingLabel">6. Como eu avalio este Sistema:</label>
+                        <div class="star-rating">
+                            <span data-value="1">★</span><span data-value="2">★</span><span data-value="3">★</span><span
+                                data-value="4">★</span><span data-value="5">★</span>
+                        </div>
+                        <input type="hidden" name="Nota_Estrelas" id="ratingValue" required>
+                    </div>
+                </div>
 
-            <!-- Step 3: Thanks -->
-            <div id="step-3" class="survey-step" style="display: none; text-align: center;">
-                <h2>Valeu!</h2>
-                <div style="font-size: 3rem; margin: 1rem;">👍</div>
-                <p>Obrigado por sua colaboração.</p>
-                <button class="btn btn-secondary" onclick="closeSurvey()">Fechar</button>
-            </div>
+                <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Enviar Avaliação</button>
+            </form>
         </div>
+
+        <!-- Step 3: Thanks -->
+        <div id="step-3" class="survey-step" style="display: none; text-align: center;">
+            <h2>Valeu!</h2>
+            <div style="font-size: 3rem; margin: 1rem;">👍</div>
+            <p>Obrigado por sua colaboração.</p>
+            <button class="btn btn-secondary" onclick="closeSurvey()">Fechar</button>
+        </div>
+    </div>
     </div>
 
     <script src="script.js"></script>
@@ -373,21 +372,36 @@
             e.preventDefault();
             const form = e.target;
             const data = new FormData(form);
+            const submitBtn = form.querySelector('button[type="submit"]');
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Enviando...';
 
             fetch(form.action, {
                 method: 'POST',
                 body: data,
-                mode: 'no-cors' // FormSubmit actually works best with normal submit, but for AJAX we often need no-cors or JSON. 
-                // FormSubmit supports AJAX with Accept: application/json.
+                headers: {
+                    'Accept': 'application/json'
+                }
             })
-                .then(() => {
-                    document.getElementById('step-2').style.display = 'none';
-                    document.getElementById('step-3').style.display = 'block';
+                .then(response => {
+                    // If this is the FIRST time, FormSubmit might try to trigger activation which causes opaque responses or 400s on AJAX
+                    // But generally 200 OK means success.
+                    console.log('Form submission status:', response.status);
+                    if (response.ok) {
+                        document.getElementById('step-2').style.display = 'none';
+                        document.getElementById('step-3').style.display = 'block';
+                    } else {
+                        alert('Houve um erro ao enviar. Verifique se o email de destino está ativado no FormSubmit.');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = 'Enviar Avaliação';
+                    }
                 })
                 .catch((err) => {
-                    // Determine if it actually failed or if it's just opaque response
-                    document.getElementById('step-2').style.display = 'none';
-                    document.getElementById('step-3').style.display = 'block';
+                    console.error('Submission error:', err);
+                    alert('Erro ao conectar com o servidor. Tente novamente.');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Enviar Avaliação';
                 });
         });
     </script>
