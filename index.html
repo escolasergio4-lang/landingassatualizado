@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1A5799">
+    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Prof Digital">
+    
     <title>Portal do Professor Digital - Ferramentas Pedagógicas</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
@@ -26,10 +28,17 @@
             <h1>Ecossistema Suite de Apps para Educadores</h1>
             <p class="subtitle">Um conjunto de ferramentas digitais gratuitas desenvolvidas para potencializar sua
                 prática pedagógica e simplificar suas ações.</p>
-            <button id="openSurveyBtn" class="btn btn-primary"
-                style="max-width: 200px; margin: 2rem auto 0; display: flex;">
-                <span class="btn-icon">⭐</span> Avaliar Sistema
-            </button>
+            
+            <div class="header-buttons" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+                
+                <button id="installAppBtn" class="btn btn-primary" style="max-width: 200px; display: none;">
+                    <span class="btn-icon">📲</span> Instalar App
+                </button>
+
+                <button id="openSurveyBtn" class="btn btn-secondary" style="max-width: 200px; display: flex;">
+                    <span class="btn-icon">⭐</span> Avaliar Sistema
+                </button>
+            </div>
         </header>
 
         <main class="apps-grid">
@@ -42,8 +51,7 @@
                 <p class="app-desc">
                     O Centelha App é o seu assistente criativo pessoal. Utilizando inteligência artificial de ponta,
                     ele gera ideias inovadoras para atividades em sala de aula, sugere estratégias de engajamento
-                    personalizadas e ajuda a superar bloqueios criativos. Ideal para tornar suas aulas mais dinâmicas e
-                    interessantes.
+                    personalizadas e ajuda a superar bloqueios criativos.
                 </p>
                 <div class="qr-container">
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://escolasergio4-lang.github.io/centelha-app/"
@@ -63,10 +71,8 @@
                 </div>
                 <h2 class="app-title">Geradoria</h2>
                 <p class="app-desc">
-                    Simplifique seu planejamento com o Geradoria. Esta ferramenta permite criar planos de aula
-                    completos,
-                    sequências didáticas detalhadas e avaliações precisas, tudo perfeitamente alinhado às competências
-                    e habilidades da BNCC. Economize tempo e garanta a qualidade pedagógica de seus documentos.
+                    Simplifique seu planejamento com o Geradoria. Crie planos de aula completos,
+                    sequências didáticas detalhadas e avaliações precisas, tudo alinhado à BNCC.
                 </p>
                 <div class="qr-container">
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://escolasergio4-lang.github.io/planejadorai/"
@@ -86,9 +92,7 @@
                 </div>
                 <h2 class="app-title">Minhas Metas</h2>
                 <p class="app-desc">
-                    Transforme seus objetivos profissionais em realidade. O app Minhas Metas ajuda você a definir metas
-                    claras,
-                    acompanhar seu progresso visualmente e manter o foco no desenvolvimento de sua carreira docente.
+                    Transforme seus objetivos profissionais em realidade. Defina metas claras e acompanhe seu progresso.
                     Disponível nativamente para Android e iOS.
                 </p>
                 <div class="qr-container">
@@ -108,9 +112,7 @@
                 </div>
                 <h2 class="app-title">ClassNote</h2>
                 <p class="app-desc">
-                    A gestão da sala de aula nunca foi tão fácil. Com o ClassNote, você registra ocorrências,
-                    notas de comportamento e observações importantes sobre os alunos de forma rápida, segura e
-                    organizada.
+                    A gestão da sala de aula nunca foi tão fácil. Registre ocorrências, notas de comportamento e observações importantes.
                 </p>
                 <div class="qr-container">
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://vcdevapps-cyber.github.io/classnoteprof/"
@@ -129,8 +131,7 @@
                 </div>
                 <h2 class="app-title">Geradores</h2>
                 <p class="app-desc">
-                    Um conjunto versátil de utilitários para o seu dia a dia. Acesse geradores de currículos,
-                    documentos escolares, atividades personalizadas e muito mais. Uma caixa de ferramentas essencial.
+                    Acesse geradores de currículos, documentos escolares, atividades personalizadas e muito mais.
                 </p>
                 <div class="qr-container">
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://educ.nekoweb.org/geradores/home.html"
@@ -149,8 +150,7 @@
                 </div>
                 <h2 class="app-title">Calendário Vivo</h2>
                 <p class="app-desc">
-                    Mais do que uma agenda, o Calendário Vivo oferece uma visão interativa do ano letivo.
-                    Acompanhe feriados, eventos escolares e organize seu planejamento pedagógico.
+                    Acompanhe feriados, eventos escolares e organize seu planejamento pedagógico em uma visão interativa.
                 </p>
                 <div class="qr-container">
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cal2026-beryl.vercel.app/"
@@ -169,8 +169,7 @@
                 </div>
                 <h2 class="app-title">PROA</h2>
                 <p class="app-desc">
-                    Prática de Orientação na Alfabetização. Uma ferramenta dedicada a apoiar professores alfabetizadores
-                    com recursos, orientações e estratégias práticas para conduzir o processo de alfabetização.
+                    Prática de Orientação na Alfabetização. Recursos e orientações para apoiar professores alfabetizadores.
                 </p>
                 <div class="qr-container">
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://proa-5-2.pages.dev/"
@@ -189,8 +188,7 @@
                 </div>
                 <h2 class="app-title">Conteúdos BNCC</h2>
                 <p class="app-desc">
-                    Tenha a Base Nacional Comum Curricular na palma da sua mão. Acesse rapidamente textos,
-                    habilidades e competências de todas as disciplinas do Ensino Fundamental II.
+                    Acesse rapidamente textos, habilidades e competências de todas as disciplinas do Ensino Fundamental II.
                 </p>
                 <div class="qr-container">
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://bncc-salinas-sergio.surge.sh/"
@@ -207,10 +205,9 @@
                 <div class="card-header">
                     <div class="icon-box">📅</div>
                 </div>
-                <h2 class="app-title">Corretor de Provas com IA</h2>
+                <h2 class="app-title">Corretor de Provas IA</h2>
                 <p class="app-desc">
-                    Agilize a correção de avaliações com o poder da IA. Tire uma foto do gabarito e das provas,
-                    e deixe que o sistema faça a correção automática, gerando relatórios de desempenho.
+                    Tire uma foto do gabarito e das provas, e deixe que o sistema faça a correção automática.
                 </p>
                 <div class="qr-container">
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://corretor-provas-ia.pages.dev/"
@@ -229,8 +226,7 @@
                 </div>
                 <h2 class="app-title">Professor News</h2>
                 <p class="app-desc">
-                    Mantenha-se informado com o Professor News. Um agregador de notícias focado em educação,
-                    trazendo as últimas atualizações da Agência Brasil e outras fontes relevantes.
+                    Agregador de notícias focado em educação, trazendo as últimas atualizações da Agência Brasil.
                 </p>
                 <div class="qr-container">
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://professor-news.surge.sh/"
@@ -249,8 +245,7 @@
                 </div>
                 <h2 class="app-title">Versão Desktop Windows</h2>
                 <p class="app-desc">
-                    Baixe o instalador para <strong>Windows</strong> e utilize as ferramentas diretamente no seu
-                    computador, sem depender de internet.
+                    Baixe o instalador para <strong>Windows</strong> e utilize as ferramentas sem depender de internet.
                 </p>
                 <div class="btn-group">
                     <a href="https://drive.google.com/file/d/1kxs_k9tQXgKVHN60fyteJRFEHB2zxOUU/view?usp=drive_link"
@@ -277,7 +272,6 @@
             </div>
 
             <div id="step-2" class="survey-step" style="display: none;">
-                
                 <iframe
                   id="JotFormIFrame-260104965746057"
                   title="Formulário"
@@ -299,7 +293,41 @@
 
     <script src="script.js"></script>
     <script>
-        // O script.js cuida de abrir e fechar o modal.
+        // Lógica de Instalação PWA (Android/PC)
+        let deferredPrompt;
+        const installBtn = document.getElementById('installAppBtn');
+
+        if (installBtn) {
+            window.addEventListener('beforeinstallprompt', (e) => {
+                // Previne o prompt automático antigo do Chrome
+                e.preventDefault();
+                // Guarda o evento para usar depois
+                deferredPrompt = e;
+                // Mostra o botão de instalar
+                installBtn.style.display = 'flex';
+            });
+
+            installBtn.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    // Mostra o prompt de instalação nativo
+                    deferredPrompt.prompt();
+                    // Espera a escolha do usuário
+                    const { outcome } = await deferredPrompt.userChoice;
+                    console.log(`User response to install prompt: ${outcome}`);
+                    // Limpa a variável
+                    deferredPrompt = null;
+                    // Esconde o botão novamente
+                    installBtn.style.display = 'none';
+                }
+            });
+        }
+
+        // Se o app já estiver instalado (Standalone), garante que o botão suma
+        window.addEventListener('appinstalled', () => {
+            if(installBtn) installBtn.style.display = 'none';
+            deferredPrompt = null;
+            console.log('PWA was installed');
+        });
     </script>
 </body>
 
