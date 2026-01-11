@@ -267,7 +267,7 @@
     </div>
 
     <div id="surveyModal" class="modal-overlay">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 600px; padding: 1.5rem;">
             <button class="close-modal" onclick="closeSurvey()">×</button>
 
             <div id="step-1" class="survey-step">
@@ -276,130 +276,19 @@
                 <button class="btn btn-primary" onclick="nextStep()">Iniciar Avaliação</button>
             </div>
 
-            <div id="step-2" class="survey-step" style="display: none;">
-                
-                <form id="surveyForm" 
-                      action="https://docs.google.com/forms/d/e/1FAIpQLSeazDimRZH5Bd-9yvimhr5K3jQY1bmHYA2xNGa7Q6ITojSDHw/formResponse" 
-                      method="POST">
-                    
-                    <div class="questions-container">
-                        <div class="q-group">
-                            <label>1. Eu usaria este sistema frequentemente.</label>
-                            <select name="entry.915259414" class="form-select" required>
-                                <option value="">Selecione...</option>
-                                <option value="Concordo Totalmente">Concordo Totalmente</option>
-                                <option value="Concordo">Concordo</option>
-                                <option value="Neutro">Neutro</option>
-                                <option value="Discordo">Discordo</option>
-                                <option value="Discordo Totalmente">Discordo Totalmente</option>
-                            </select>
-                        </div>
-                        <div class="q-group">
-                            <label>2. O sistema foi fácil de entender.</label>
-                            <select name="entry.533138914" class="form-select" required>
-                                <option value="">Selecione...</option>
-                                <option value="Concordo Totalmente">Concordo Totalmente</option>
-                                <option value="Concordo">Concordo</option>
-                                <option value="Neutro">Neutro</option>
-                                <option value="Discordo">Discordo</option>
-                                <option value="Discordo Totalmente">Discordo Totalmente</option>
-                            </select>
-                        </div>
-                        <div class="q-group">
-                            <label>3. Tudo no sistema parece funcionar bem juntos.</label>
-                            <select name="entry.247487964" class="form-select" required>
-                                <option value="">Selecione...</option>
-                                <option value="Concordo Totalmente">Concordo Totalmente</option>
-                                <option value="Concordo">Concordo</option>
-                                <option value="Neutro">Neutro</option>
-                                <option value="Discordo">Discordo</option>
-                                <option value="Discordo Totalmente">Discordo Totalmente</option>
-                            </select>
-                        </div>
-                        <div class="q-group">
-                            <label>4. Eu acho que a maioria das pessoas poderia aprender a usar este sistema rapidamente.</label>
-                            <select name="entry.414965269" class="form-select" required>
-                                <option value="">Selecione...</option>
-                                <option value="Concordo Totalmente">Concordo Totalmente</option>
-                                <option value="Concordo">Concordo</option>
-                                <option value="Neutro">Neutro</option>
-                                <option value="Discordo">Discordo</option>
-                                <option value="Discordo Totalmente">Discordo Totalmente</option>
-                            </select>
-                        </div>
-                        <div class="q-group">
-                            <label>5. Me senti confiante ao usar o sistema.</label>
-                            <select name="entry.997202128" class="form-select" required>
-                                <option value="">Selecione...</option>
-                                <option value="Concordo Totalmente">Concordo Totalmente</option>
-                                <option value="Concordo">Concordo</option>
-                                <option value="Neutro">Neutro</option>
-                                <option value="Discordo">Discordo</option>
-                                <option value="Discordo Totalmente">Discordo Totalmente</option>
-                            </select>
-                        </div>
-
-                        <div class="q-group">
-                            <label id="ratingLabel">6. Como eu avalio este Sistema:</label>
-                            <div class="star-rating">
-                                <span data-value="1">★</span><span data-value="2">★</span><span
-                                    data-value="3">★</span><span data-value="4">★</span><span data-value="5">★</span>
-                            </div>
-                            <input type="hidden" name="entry.146307511" id="ratingValue" required>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Enviar Avaliação</button>
-                    <p style="font-size: 0.8rem; margin-top: 10px; color: #cbd5e1; text-align: center;">
-                        Seus dados são processados anonimamente pelo Google Forms.
-                    </p>
-                </form>
+            <div id="step-2" class="survey-step" style="display: none; height: 500px;">
+                <iframe id="typeform-full" width="100%" height="100%" frameborder="0" allow="camera; microphone; autoplay; encrypted-media;" 
+                src="https://form.typeform.com/to/Vugz7RCP" style="border-radius: 12px;"></iframe>
             </div>
-
-            <div id="step-3" class="survey-step" style="display: none; text-align: center;">
-                <h2>Valeu!</h2>
-                <div style="font-size: 3rem; margin: 1rem;">👍</div>
-                <p>Obrigado por sua colaboração.</p>
-                <div style="margin-top: 2rem;">
-                    <button class="btn btn-secondary" onclick="closeSurvey()">Fechar</button>
-                </div>
-            </div>
+            
         </div>
     </div>
 
     <script src="script.js"></script>
     <script>
-        // Lógica para enviar para o Google Forms de forma "invisível"
-        var form = document.getElementById("surveyForm");
-
-        async function handleSubmit(event) {
-            event.preventDefault();
-            
-            var submitBtn = form.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = 'Enviando...';
-
-            var data = new FormData(event.target);
-            
-            // fetch com mode: 'no-cors' é o segredo para o Google Forms aceitar
-            // a requisição vinda de outro site (seu GitHub Pages)
-            fetch(event.target.action, {
-                method: 'POST',
-                body: data,
-                mode: 'no-cors' 
-            }).then(() => {
-                // Sucesso!
-                document.getElementById('step-2').style.display = 'none';
-                document.getElementById('step-3').style.display = 'block';
-                form.reset();
-            }).catch(error => {
-                console.error('Erro:', error);
-                alert("Houve um problema ao enviar. Verifique sua conexão.");
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Enviar Avaliação';
-            });
-        }
-        form.addEventListener("submit", handleSubmit);
+        // A lógica do modal está no script.js. 
+        // Não é necessário script adicional aqui porque o Typeform gerencia o envio e agradecimento internamente.
     </script>
 </body>
+
 </html>
