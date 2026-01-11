@@ -14,27 +14,42 @@ if ('serviceWorker' in navigator) {
 // Modal Logic
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('surveyModal');
-    const openBtn = document.getElementById('openSurveyBtn'); // We need to add this button somewhere, or auto-open
+    const openBtn = document.getElementById('openSurveyBtn');
     const closeBtn = document.querySelector('.close-modal');
     const step1 = document.getElementById('step-1');
     const step2 = document.getElementById('step-2');
     const step3 = document.getElementById('step-3');
 
-    // Auto open after a few seconds or use a trigger? 
-    // User didn't specify, but "Bem-vindo Professor" suggests it might be on load or easily accessible.
-    // I will add a floating button to open it.
+    // Open Modal
+    if (openBtn) {
+        openBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            modal.classList.add('active');
+        });
+    }
 
-    window.openSurvey = () => {
-        modal.classList.add('active');
-    };
-
+    // Close Modal
     window.closeSurvey = () => {
         modal.classList.remove('active');
     };
 
+    if (closeBtn) {
+        closeBtn.addEventListener('click', window.closeSurvey);
+    }
+
+    // Close on outside click
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                window.closeSurvey();
+            }
+        });
+    }
+
+    // Navigation
     window.nextStep = () => {
-        step1.style.display = 'none';
-        step2.style.display = 'block';
+        if (step1) step1.style.display = 'none';
+        if (step2) step2.style.display = 'block';
     };
 
     // Star Rating Logic
@@ -44,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     stars.forEach(star => {
         star.addEventListener('click', () => {
             const value = star.dataset.value;
-            ratingInput.value = value;
+            if (ratingInput) ratingInput.value = value;
             updateStars(value);
         });
     });
@@ -53,8 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
         stars.forEach(s => {
             if (parseInt(s.dataset.value) <= parseInt(value)) {
                 s.classList.add('active');
+                s.style.color = '#fbbf24';
             } else {
                 s.classList.remove('active');
+                s.style.color = 'rgba(255,255,255,0.2)';
             }
         });
     }
