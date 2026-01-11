@@ -266,26 +266,21 @@
         </footer>
     </div>
 
-    <!-- Survey Modal -->
     <div id="surveyModal" class="modal-overlay">
         <div class="modal-content">
             <button class="close-modal" onclick="closeSurvey()">×</button>
 
-            <!-- Step 1: Welcome -->
             <div id="step-1" class="survey-step">
                 <h2>Bem-vindo(a) Professor(a)</h2>
                 <p>Valeu pelo feedback - bora lá!</p>
                 <button class="btn btn-primary" onclick="nextStep()">Iniciar Avaliação</button>
             </div>
 
-            <!-- Step 2: Form -->
             <div id="step-2" class="survey-step" style="display: none;">
-                <form id="surveyForm" action="https://formsubmit.co/5178f3963365d6a5f93fb806f3303dc3" method="POST"
-                    target="_blank">
-                    <input type="hidden" name="_captcha" value="false">
+                <form id="surveyForm" action="https://formspree.io/f/mzddpqoo" method="POST">
+                    
                     <input type="hidden" name="_subject" value="Nova Avaliação do Sistema">
-                    <input type="hidden" name="_template" value="table">
-
+                    
                     <div class="questions-container">
                         <div class="q-group">
                             <label>1. Eu usaria este sistema frequentemente.</label>
@@ -356,12 +351,11 @@
 
                     <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Enviar Avaliação</button>
                     <p style="font-size: 0.8rem; margin-top: 10px; color: #cbd5e1; text-align: center;">
-                        Uma nova guia será aberta para confirmar o envio.
+                        Os dados são enviados anonimamente via Formspree.
                     </p>
                 </form>
             </div>
 
-            <!-- Step 3: Thanks -->
             <div id="step-3" class="survey-step" style="display: none; text-align: center;">
                 <h2>Valeu!</h2>
                 <div style="font-size: 3rem; margin: 1rem;">👍</div>
@@ -377,8 +371,6 @@
     <script src="script.js"></script>
     <script>
         // Handle form UI transition without blocking default submit (target=_blank)
-
-
         var form = document.getElementById("surveyForm");
 
         async function handleSubmit(event) {
@@ -405,14 +397,14 @@
                         if (Object.hasOwn(data, 'errors')) {
                             alert(data["errors"].map(error => error["message"]).join(", "));
                         } else {
-                            alert("Oops! There was a problem submitting your form");
+                            alert("Oops! Houve um problema ao enviar o formulário.");
                         }
                         submitBtn.disabled = false;
                         submitBtn.innerHTML = 'Enviar Avaliação';
                     })
                 }
             }).catch(error => {
-                alert("Oops! There was a problem submitting your form");
+                alert("Oops! Houve um problema ao enviar o formulário.");
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = 'Enviar Avaliação';
             });
