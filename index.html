@@ -267,7 +267,7 @@
     </div>
 
     <div id="surveyModal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 600px; padding: 1.5rem;">
+        <div class="modal-content" style="max-width: 700px; width: 95%; padding: 2rem;">
             <button class="close-modal" onclick="closeSurvey()">×</button>
 
             <div id="step-1" class="survey-step">
@@ -276,18 +276,32 @@
                 <button class="btn btn-primary" onclick="nextStep()">Iniciar Avaliação</button>
             </div>
 
-            <div id="step-2" class="survey-step" style="display: none; height: 500px;">
-                <iframe id="typeform-full" width="100%" height="100%" frameborder="0" allow="camera; microphone; autoplay; encrypted-media;" 
-                src="https://form.typeform.com/to/Vugz7RCP" style="border-radius: 12px;"></iframe>
+            <div id="step-2" class="survey-step" style="display: none;">
+                <iframe
+                  id="JotFormIFrame"
+                  title="Avaliação do Sistema"
+                  onload="window.parent.scrollTo(0,0)"
+                  allowtransparency="true"
+                  allow="geolocation; microphone; camera"
+                  src="https://form.jotform.com/jsform/260104965746057"
+                  frameborder="0"
+                  style="min-width: 100%; height: 500px; border:none;"
+                  scrolling="yes"
+                >
+                </iframe>
+                
+                <div style="margin-top: 1rem; text-align: center;">
+                    <button class="btn btn-secondary" onclick="closeSurvey()" style="max-width: 150px;">Fechar</button>
+                </div>
             </div>
             
-        </div>
+            </div>
     </div>
 
     <script src="script.js"></script>
     <script>
-        // A lógica do modal está no script.js. 
-        // Não é necessário script adicional aqui porque o Typeform gerencia o envio e agradecimento internamente.
+        // O script.js cuida de abrir e fechar o modal.
+        // O JotForm dentro do iframe cuida do envio dos dados.
     </script>
 </body>
 
