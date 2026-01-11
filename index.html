@@ -377,14 +377,48 @@
     <script src="script.js"></script>
     <script>
         // Handle form UI transition without blocking default submit (target=_blank)
-        document.getElementById('surveyForm').addEventListener('submit', function (e) {
-            // We DO NOT prevent default here. We let it open the new tab.
 
-            // Advance to the 'Thanks' step in the current window so when they return it looks done.
-            setTimeout(() => {
-                document.getElementById('step-2').style.display = 'none';
-                document.getElementById('step-3').style.display = 'block';
-            }, 1000);
+        // Handle form submission via AJAX for a smooth experience without page reload
+        document.getElementById('surveyForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = new FormData(form);
+            const submitBtn = form.querySelector('button[type="submit"]');
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Enviando...';
+
+            fetch(form.action, {
+                method: 'POST',
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Success! Show 'Thank you' screen in the modal
+                        document.getElementById('step-2').style.display = 'none';
+                        document.getElementById('step-3').style.display = 'block';
+                    } else {
+                        return response.json().then(data => {
+                            // Attempt to show error message from backend
+                            if (Object.hasOwn(data, 'errors')) {
+                                alert(data["errors"].map(error => error["message"]).join(", "));
+                            } else {
+                                alert('Ops! Ocorreu um erro no envio. Tente novamente.');
+                            }
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = 'Enviar Avaliação';
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.error('Submission error:', err);
+                    alert('Erro de conexão. Verifique sua internet.');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Enviar Avaliação';
+                });
         });
     </script>
 </body>
