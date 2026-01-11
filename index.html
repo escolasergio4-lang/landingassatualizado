@@ -277,14 +277,15 @@
             </div>
 
             <div id="step-2" class="survey-step" style="display: none;">
-                <form id="surveyForm" action="https://formspree.io/f/mzddpqoo" method="POST">
+                
+                <form id="surveyForm" 
+                      action="https://docs.google.com/forms/d/e/1FAIpQLSeazDimRZH5Bd-9yvimhr5K3jQY1bmHYA2xNGa7Q6ITojSDHw/formResponse" 
+                      method="POST">
                     
-                    <input type="hidden" name="_subject" value="Nova Avaliação do Sistema">
-
                     <div class="questions-container">
                         <div class="q-group">
                             <label>1. Eu usaria este sistema frequentemente.</label>
-                            <select name="1_Frequencia_Uso" class="form-select" required>
+                            <select name="entry.915259414" class="form-select" required>
                                 <option value="">Selecione...</option>
                                 <option value="Concordo Totalmente">Concordo Totalmente</option>
                                 <option value="Concordo">Concordo</option>
@@ -295,7 +296,7 @@
                         </div>
                         <div class="q-group">
                             <label>2. O sistema foi fácil de entender.</label>
-                            <select name="2_Facil_Entender" class="form-select" required>
+                            <select name="entry.533138914" class="form-select" required>
                                 <option value="">Selecione...</option>
                                 <option value="Concordo Totalmente">Concordo Totalmente</option>
                                 <option value="Concordo">Concordo</option>
@@ -306,7 +307,7 @@
                         </div>
                         <div class="q-group">
                             <label>3. Tudo no sistema parece funcionar bem juntos.</label>
-                            <select name="3_Integracao" class="form-select" required>
+                            <select name="entry.247487964" class="form-select" required>
                                 <option value="">Selecione...</option>
                                 <option value="Concordo Totalmente">Concordo Totalmente</option>
                                 <option value="Concordo">Concordo</option>
@@ -316,9 +317,8 @@
                             </select>
                         </div>
                         <div class="q-group">
-                            <label>4. Eu acho que a maioria das pessoas poderia aprender a usar este sistema
-                                rapidamente.</label>
-                            <select name="4_Facilidade_Aprendizado" class="form-select" required>
+                            <label>4. Eu acho que a maioria das pessoas poderia aprender a usar este sistema rapidamente.</label>
+                            <select name="entry.414965269" class="form-select" required>
                                 <option value="">Selecione...</option>
                                 <option value="Concordo Totalmente">Concordo Totalmente</option>
                                 <option value="Concordo">Concordo</option>
@@ -329,7 +329,7 @@
                         </div>
                         <div class="q-group">
                             <label>5. Me senti confiante ao usar o sistema.</label>
-                            <select name="5_Confianca" class="form-select" required>
+                            <select name="entry.997202128" class="form-select" required>
                                 <option value="">Selecione...</option>
                                 <option value="Concordo Totalmente">Concordo Totalmente</option>
                                 <option value="Concordo">Concordo</option>
@@ -345,13 +345,13 @@
                                 <span data-value="1">★</span><span data-value="2">★</span><span
                                     data-value="3">★</span><span data-value="4">★</span><span data-value="5">★</span>
                             </div>
-                            <input type="hidden" name="Nota_Estrelas" id="ratingValue" required>
+                            <input type="hidden" name="entry.146307511" id="ratingValue" required>
                         </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Enviar Avaliação</button>
                     <p style="font-size: 0.8rem; margin-top: 10px; color: #cbd5e1; text-align: center;">
-                        Os dados são enviados de forma segura via Formspree.
+                        Seus dados são processados anonimamente pelo Google Forms.
                     </p>
                 </form>
             </div>
@@ -361,7 +361,6 @@
                 <div style="font-size: 3rem; margin: 1rem;">👍</div>
                 <p>Obrigado por sua colaboração.</p>
                 <div style="margin-top: 2rem;">
-
                     <button class="btn btn-secondary" onclick="closeSurvey()">Fechar</button>
                 </div>
             </div>
@@ -370,41 +369,32 @@
 
     <script src="script.js"></script>
     <script>
-        // Lógica de envio sem recarregar a página (AJAX)
+        // Lógica para enviar para o Google Forms de forma "invisível"
         var form = document.getElementById("surveyForm");
 
         async function handleSubmit(event) {
             event.preventDefault();
+            
             var submitBtn = form.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             submitBtn.innerHTML = 'Enviando...';
 
             var data = new FormData(event.target);
+            
+            // fetch com mode: 'no-cors' é o segredo para o Google Forms aceitar
+            // a requisição vinda de outro site (seu GitHub Pages)
             fetch(event.target.action, {
-                method: form.method,
+                method: 'POST',
                 body: data,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            }).then(response => {
-                if (response.ok) {
-                    // Sucesso! Mostra a tela de agradecimento
-                    document.getElementById('step-2').style.display = 'none';
-                    document.getElementById('step-3').style.display = 'block';
-                    form.reset();
-                } else {
-                    response.json().then(data => {
-                        if (Object.hasOwn(data, 'errors')) {
-                            alert(data["errors"].map(error => error["message"]).join(", "));
-                        } else {
-                            alert("Oops! Houve um problema ao enviar o formulário.");
-                        }
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = 'Enviar Avaliação';
-                    })
-                }
+                mode: 'no-cors' 
+            }).then(() => {
+                // Sucesso!
+                document.getElementById('step-2').style.display = 'none';
+                document.getElementById('step-3').style.display = 'block';
+                form.reset();
             }).catch(error => {
-                alert("Oops! Houve um problema ao enviar o formulário.");
+                console.error('Erro:', error);
+                alert("Houve um problema ao enviar. Verifique sua conexão.");
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = 'Enviar Avaliação';
             });
@@ -412,5 +402,4 @@
         form.addEventListener("submit", handleSubmit);
     </script>
 </body>
-
 </html>
