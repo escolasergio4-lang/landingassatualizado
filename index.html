@@ -280,7 +280,7 @@
                 <form id="surveyForm" action="https://formspree.io/f/mzddpqoo" method="POST">
                     
                     <input type="hidden" name="_subject" value="Nova Avaliação do Sistema">
-                    
+
                     <div class="questions-container">
                         <div class="q-group">
                             <label>1. Eu usaria este sistema frequentemente.</label>
@@ -351,7 +351,7 @@
 
                     <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Enviar Avaliação</button>
                     <p style="font-size: 0.8rem; margin-top: 10px; color: #cbd5e1; text-align: center;">
-                        Os dados são enviados anonimamente via Formspree.
+                        Os dados são enviados de forma segura via Formspree.
                     </p>
                 </form>
             </div>
@@ -370,7 +370,7 @@
 
     <script src="script.js"></script>
     <script>
-        // Handle form UI transition without blocking default submit (target=_blank)
+        // Lógica de envio sem recarregar a página (AJAX)
         var form = document.getElementById("surveyForm");
 
         async function handleSubmit(event) {
@@ -388,7 +388,7 @@
                 }
             }).then(response => {
                 if (response.ok) {
-                    // Success! Show 'Thank you' screen in the modal
+                    // Sucesso! Mostra a tela de agradecimento
                     document.getElementById('step-2').style.display = 'none';
                     document.getElementById('step-3').style.display = 'block';
                     form.reset();
