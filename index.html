@@ -4,349 +4,940 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#1A5799">
-    
+    <title>Store Apps - Sua Loja de Aplicativos</title>
+    <meta name="description" content="Sua loja de aplicativos favorita">
+    <meta name="theme-color" content="#E9F5FF">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- iOS PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Prof Digital">
-    
-    <title>Portal do Professor Digital - Ferramentas Pedagógicas</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-title" content="Store Apps">
     <link rel="apple-touch-icon" href="icon-192.png">
-    <link rel="icon" type="image/png" href="icon-192.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icon-16.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* User Palette */
+            --ordy-blue: #93BFEF;
+            /* RGB: 147, 191, 239 */
+            --tufts-blue: #468BE6;
+            /* RGB: 70, 139, 230 */
+            --alice-blue: #E9F5FF;
+            /* RGB: 233, 245, 255 */
+            --cobalt-blue: #1A5799;
+            /* RGB: 26, 87, 153 */
+            --cool-black: #092F64;
+            /* RGB: 9, 47, 100 */
+            --eirie-black: #1F1F1F;
+            /* RGB: 31, 31, 31 */
+
+            /* Semantic Design System */
+            --bg-page: var(--alice-blue);
+            --bg-surface: rgba(255, 255, 255, 0.7);
+            --bg-surface-solid: #ffffff;
+
+            --primary-brand: var(--tufts-blue);
+            --primary-hover: var(--cobalt-blue);
+
+            --text-main: var(--eirie-black);
+            --text-heading: var(--cool-black);
+            --text-muted: var(--cobalt-blue);
+
+            --border-subtle: var(--ordy-blue);
+            --border-focus: var(--tufts-blue);
+
+            --shadow-soft: 0 8px 30px rgba(70, 139, 230, 0.12);
+            --shadow-hover: 0 15px 35px rgba(26, 87, 153, 0.15);
+            --glow-primary: 0 0 20px rgba(70, 139, 230, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            background-image:
+                radial-gradient(circle at 0% 0%, rgba(147, 191, 239, 0.3) 0%, transparent 40%),
+                radial-gradient(circle at 100% 100%, rgba(70, 139, 230, 0.1) 0%, transparent 40%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        .app-card {
+            background: var(--bg-surface);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(147, 191, 239, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .app-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-brand);
+            background: var(--bg-surface-solid);
+        }
+
+        .category-pill {
+            transition: all 0.3s ease;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        .category-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(70, 139, 230, 0.2);
+        }
+
+        .scroll-container {
+            scrollbar-width: thin;
+            scrollbar-color: var(--ordy-blue) transparent;
+            padding-bottom: 4px;
+            /* Space for scrollbar */
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .scroll-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb {
+            background: var(--ordy-blue);
+            border-radius: 10px;
+        }
+
+        .glass-effect {
+            background: var(--bg-surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-glass {
+            background: rgba(233, 245, 255, 0.85);
+            /* Alice Blue high opacity */
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(147, 191, 239, 0.3);
+        }
+
+        .glow-effect:hover {
+            box-shadow: var(--glow-primary);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, var(--cool-black) 0%, var(--primary-brand) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Modal Animation */
+        #appModal>div {
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .install-prompt {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
+            animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: var(--shadow-hover);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(120%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .install-prompt {
+                bottom: 16px;
+                right: 16px;
+                left: 16px;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Header -->
+    <header class="nav-glass shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-store text-2xl mr-2" style="color: var(--primary-brand);"></i>
+                        <span class="text-xl font-bold text-gradient">Store Apps</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2 md:space-x-4">
+                    <div class="relative hidden md:block">
+                        <input type="text" id="searchInput" placeholder="Pesquisar apps..."
+                            class="w-64 px-4 py-2 pl-10 pr-4 rounded-full focus:outline-none transition-all"
+                            style="background-color: rgba(255, 255, 255, 0.5); color: var(--text-heading); border: 1px solid var(--border-subtle); backdrop-filter: blur(4px);">
+                        <i class="fas fa-search absolute left-3 top-3" style="color: var(--text-muted);"></i>
+                    </div>
 
-    <div class="bg-orb orb-1"></div>
-    <div class="bg-orb orb-2"></div>
-    <div class="bg-orb orb-3"></div>
+                    <!-- Desktop Install Button -->
+                    <button id="headerInstallBtn"
+                        class="hidden md:flex items-center px-4 py-2 rounded-full transition-all group hover:bg-white/40"
+                        style="color: var(--primary-brand);" title="Instalar App">
+                        <i class="fas fa-download text-lg"></i>
+                        <span class="ml-2 text-sm font-bold">Instalar</span>
+                    </button>
 
-    <div class="container">
-        <header>
-            <h1>Ecossistema Suite de Apps para Educadores</h1>
-            <p class="subtitle">Um conjunto de ferramentas digitais gratuitas desenvolvidas para potencializar sua
-                prática pedagógica e simplificar suas ações.</p>
-            
-            <div class="header-buttons" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
-                
-                <button id="installAppBtn" class="btn btn-primary" style="max-width: 200px; display: none;">
-                    <span class="btn-icon">📲</span> Instalar App
-                </button>
+                    <!-- Survey Button -->
+                    <button onclick="openSurvey()" class="p-2 rounded-full hover:bg-white/40 transition-all"
+                        title="Avaliar Sistema">
+                        <i class="fas fa-star text-xl text-yellow-500"></i>
+                    </button>
 
-                <button id="openSurveyBtn" class="btn btn-secondary" style="max-width: 200px; display: flex;">
-                    <span class="btn-icon">⭐</span> Avaliar Sistema
-                </button>
+                    <button class="p-2 rounded-full hover:bg-white/40 transition-colors"
+                        style="background-color: transparent;">
+                        <i class="fas fa-user-circle text-xl" style="color: var(--primary-brand);"></i>
+                    </button>
+                    <button id="mobileMenuBtn" class="md:hidden p-2 rounded-full"
+                        style="background-color: transparent;">
+                        <i class="fas fa-bars text-xl" style="color: var(--primary-brand);"></i>
+                    </button>
+                </div>
             </div>
-        </header>
+            <!-- Mobile Search & Menu -->
+            <div id="mobileSearch" class="hidden md:hidden pb-4 space-y-4">
+                <div class="relative">
+                    <input type="text" id="mobileSearchInput" placeholder="Pesquisar apps..."
+                        class="w-full px-4 py-2 pl-10 pr-4 rounded-full focus:outline-none"
+                        style="background-color: rgba(255, 255, 255, 0.5); color: var(--text-heading); border: 1px solid var(--border-subtle);">
+                    <i class="fas fa-search absolute left-3 top-3" style="color: var(--text-muted);"></i>
+                </div>
+                <!-- Mobile Actions -->
+                <div class="grid grid-cols-2 gap-4 pt-2 border-t" style="border-color: rgba(147, 191, 239, 0.3);">
+                    <button id="mobileInstallBtn"
+                        class="hidden flex-col items-center justify-center p-3 rounded-xl hover:bg-white/30"
+                        style="color: var(--primary-brand);">
+                        <i class="fas fa-download text-2xl mb-1"></i>
+                        <span class="text-xs font-bold">Instalar App</span>
+                    </button>
+                    <button onclick="openSurvey()"
+                        class="flex flex-col items-center justify-center p-3 rounded-xl hover:bg-white/30"
+                        style="color: var(--text-heading);">
+                        <i class="fas fa-star text-2xl mb-1 text-yellow-500"></i>
+                        <span class="text-xs font-bold">Avaliar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
 
-        <main class="apps-grid">
-
-            <article class="card">
-                <div class="card-header">
-                    <div class="icon-box">🧠</div>
-                </div>
-                <h2 class="app-title">Centelha App</h2>
-                <p class="app-desc">
-                    O Centelha App é o seu assistente criativo pessoal. Utilizando inteligência artificial de ponta,
-                    ele gera ideias inovadoras para atividades em sala de aula, sugere estratégias de engajamento
-                    personalizadas e ajuda a superar bloqueios criativos.
-                </p>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://escolasergio4-lang.github.io/centelha-app/"
-                        alt="QR Code Centelha" class="qr-code">
-                </div>
-                <div class="btn-group">
-                    <a href="https://escolasergio4-lang.github.io/centelha-app/" target="_blank"
-                        class="btn btn-primary">
-                        <span class="btn-icon">🌐</span> Acessar Online
-                    </a>
-                </div>
-            </article>
-
-            <article class="card">
-                <div class="card-header">
-                    <div class="icon-box">🧠</div>
-                </div>
-                <h2 class="app-title">Geradoria</h2>
-                <p class="app-desc">
-                    Simplifique seu planejamento com o Geradoria. Crie planos de aula completos,
-                    sequências didáticas detalhadas e avaliações precisas, tudo alinhado à BNCC.
-                </p>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://escolasergio4-lang.github.io/planejadorai/"
-                        alt="QR Code Geradoria" class="qr-code">
-                </div>
-                <div class="btn-group">
-                    <a href="https://escolasergio4-lang.github.io/planejadorai/" target="_blank"
-                        class="btn btn-primary">
-                        <span class="btn-icon">🌐</span> Acessar Online
-                    </a>
-                </div>
-            </article>
-
-            <article class="card">
-                <div class="card-header">
-                    <div class="icon-box">🎯</div>
-                </div>
-                <h2 class="app-title">Minhas Metas</h2>
-                <p class="app-desc">
-                    Transforme seus objetivos profissionais em realidade. Defina metas claras e acompanhe seu progresso.
-                    Disponível nativamente para Android e iOS.
-                </p>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://escolasergio4-lang.github.io/minhasmetas/"
-                        alt="QR Code Minhas Metas" class="qr-code">
-                </div>
-                <div class="btn-group">
-                    <a href="https://escolasergio4-lang.github.io/minhasmetas/" target="_blank" class="btn btn-primary">
-                        <span class="btn-icon">🌐</span> Acessar Online
-                    </a>
-                </div>
-            </article>
-
-            <article class="card">
-                <div class="card-header">
-                    <div class="icon-box">📝</div>
-                </div>
-                <h2 class="app-title">ClassNote</h2>
-                <p class="app-desc">
-                    A gestão da sala de aula nunca foi tão fácil. Registre ocorrências, notas de comportamento e observações importantes.
-                </p>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://vcdevapps-cyber.github.io/classnoteprof/"
-                        alt="QR Code ClassNote" class="qr-code">
-                </div>
-                <div class="btn-group">
-                    <a href="https://vcdevapps-cyber.github.io/classnoteprof/" target="_blank" class="btn btn-primary">
-                        <span class="btn-icon">🌐</span> Acessar Online
-                    </a>
-                </div>
-            </article>
-
-            <article class="card">
-                <div class="card-header">
-                    <div class="icon-box">⚡</div>
-                </div>
-                <h2 class="app-title">Geradores</h2>
-                <p class="app-desc">
-                    Acesse geradores de currículos, documentos escolares, atividades personalizadas e muito mais.
-                </p>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://educ.nekoweb.org/geradores/home.html"
-                        alt="QR Code Geradores" class="qr-code">
-                </div>
-                <div class="btn-group">
-                    <a href="https://educ.nekoweb.org/geradores/home.html" target="_blank" class="btn btn-primary">
-                        <span class="btn-icon">🌐</span> Acessar Online
-                    </a>
-                </div>
-            </article>
-
-            <article class="card">
-                <div class="card-header">
-                    <div class="icon-box">📅</div>
-                </div>
-                <h2 class="app-title">Calendário Vivo</h2>
-                <p class="app-desc">
-                    Acompanhe feriados, eventos escolares e organize seu planejamento pedagógico em uma visão interativa.
-                </p>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cal2026-beryl.vercel.app/"
-                        alt="QR Code Calendário Vivo" class="qr-code">
-                </div>
-                <div class="btn-group">
-                    <a href="https://cal2026-beryl.vercel.app/" target="_blank" class="btn btn-primary">
-                        <span class="btn-icon">🌐</span> Acessar Online
-                    </a>
-                </div>
-            </article>
-
-            <article class="card">
-                <div class="card-header">
-                    <div class="icon-box">📅</div>
-                </div>
-                <h2 class="app-title">PROA</h2>
-                <p class="app-desc">
-                    Prática de Orientação na Alfabetização. Recursos e orientações para apoiar professores alfabetizadores.
-                </p>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://proa-5-2.pages.dev/"
-                        alt="QR Code Proa" class="qr-code">
-                </div>
-                <div class="btn-group">
-                    <a href="https://proa-5-2.pages.dev/" target="_blank" class="btn btn-primary">
-                        <span class="btn-icon">🌐</span> Acessar Online
-                    </a>
-                </div>
-            </article>
-
-            <article class="card">
-                <div class="card-header">
-                    <div class="icon-box">📅</div>
-                </div>
-                <h2 class="app-title">Conteúdos BNCC</h2>
-                <p class="app-desc">
-                    Acesse rapidamente textos, habilidades e competências de todas as disciplinas do Ensino Fundamental II.
-                </p>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://bncc-salinas-sergio.surge.sh/"
-                        alt="QR Code Proa" class="qr-code">
-                </div>
-                <div class="btn-group">
-                    <a href="https://bncc-salinas-sergio.surge.sh/" target="_blank" class="btn btn-primary">
-                        <span class="btn-icon">🌐</span> Acessar Online
-                    </a>
-                </div>
-            </article>
-
-            <article class="card">
-                <div class="card-header">
-                    <div class="icon-box">📅</div>
-                </div>
-                <h2 class="app-title">Corretor de Provas IA</h2>
-                <p class="app-desc">
-                    Tire uma foto do gabarito e das provas, e deixe que o sistema faça a correção automática.
-                </p>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://corretor-provas-ia.pages.dev/"
-                        alt="QR Code Proa" class="qr-code">
-                </div>
-                <div class="btn-group">
-                    <a href="https://corretor-provas-ia.pages.dev/" target="_blank" class="btn btn-primary">
-                        <span class="btn-icon">🌐</span> Acessar Online
-                    </a>
-                </div>
-            </article>
-
-            <article class="card">
-                <div class="card-header">
-                    <div class="icon-box">📅</div>
-                </div>
-                <h2 class="app-title">Professor News</h2>
-                <p class="app-desc">
-                    Agregador de notícias focado em educação, trazendo as últimas atualizações da Agência Brasil.
-                </p>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://professor-news.surge.sh/"
-                        alt="QR Code Proa" class="qr-code">
-                </div>
-                <div class="btn-group">
-                    <a href="https://professor-news.surge.sh/" target="_blank" class="btn btn-primary">
-                        <span class="btn-icon">🌐</span> Acessar Online
-                    </a>
-                </div>
-            </article>
-
-             <article class="card">
-                <div class="card-header">
-                    <div class="icon-box">📅</div>
-                </div>
-                <h2 class="app-title">EduFilmes</h2>
-                <p class="app-desc">
-                    Projetado para auxiliar professores na curadoria de conteúdo audiovisual para sala de aula.
-                </p>
-                <div class="qr-container">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://pleasant-current.surge.sh/"
-                        alt="QR Code Proa" class="qr-code">
-                </div>
-                <div class="btn-group">
-                    <a href="https://pleasant-current.surge.sh/" target="_blank" class="btn btn-primary">
-                        <span class="btn-icon">🌐</span> Acessar Online
-                    </a>
-                </div>
-            </article>
-
-            <article class="card" style="border-color: rgba(168, 85, 247, 0.6);">
-                <div class="card-header">
-                    <div class="icon-box" style="background: rgba(168, 85, 247, 0.2);">🪟</div>
-                </div>
-                <h2 class="app-title">Versão Desktop Windows</h2>
-                <p class="app-desc">
-                    Baixe o instalador para <strong>Windows</strong> e utilize as ferramentas sem depender de internet.
-                </p>
-                <div class="btn-group">
-                    <a href="https://drive.google.com/file/d/1kxs_k9tQXgKVHN60fyteJRFEHB2zxOUU/view?usp=drive_link"
-                        target="_blank" class="btn btn-secondary">
-                        <span class="btn-icon">⬇️</span> Baixar Instalador (.exe)
-                    </a>
-                </div>
-            </article>
-        </main>
-
-        <footer>
-            <p>Desenvolvido pelo Profº Sérgio Araújo. &copy; 2026</p>
-        </footer>
+    <!-- Categories -->
+    <div class="glass-effect border-b" style="border-color: rgba(147, 191, 239, 0.1);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex space-x-2 overflow-x-auto scroll-container pb-2" id="categoriesContainer">
+                <!-- Categories will be inserted here by JavaScript -->
+            </div>
+        </div>
     </div>
 
-    <div id="surveyModal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 700px; width: 95%; padding: 2rem;">
-            <button class="close-modal" onclick="closeSurvey()">×</button>
-
-            <div id="step-1" class="survey-step">
-                <h2>Bem-vindo(a) Professor(a)</h2>
-                <p>Valeu pelo feedback - bora lá!</p>
-                <button class="btn btn-primary" onclick="nextStep()">Iniciar Avaliação</button>
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Featured Apps -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 text-gradient">Apps em Destaque</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="featuredApps">
+                <!-- Featured apps will be inserted here by JavaScript -->
             </div>
+        </section>
 
-            <div id="step-2" class="survey-step" style="display: none;">
-                <iframe
-                  id="JotFormIFrame-260104965746057"
-                  title="Formulário"
-                  allowtransparency="true"
-                  allow="geolocation; microphone; camera; fullscreen"
-                  src="https://form.jotform.com/260104965746057"
-                  frameborder="0"
-                  style="width:100%; height:500px; border:none;"
-                  scrolling="yes"
-                >
-                </iframe>
-                
-                <div style="margin-top: 1rem; text-align: center;">
-                    <button class="btn btn-secondary" onclick="closeSurvey()" style="max-width: 150px;">Fechar</button>
+        <!-- All Apps -->
+        <section>
+            <h2 class="text-2xl font-bold mb-6 text-gradient">Todos os Apps</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="allApps">
+                <!-- All apps will be inserted here by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- App Detail Modal -->
+    <div id="appModal" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="glass-effect rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div id="modalContent">
+                    <!-- Modal content will be inserted here by JavaScript -->
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
-    <script>
-        // Lógica de Instalação PWA (Android/PC)
-        let deferredPrompt;
-        const installBtn = document.getElementById('installAppBtn');
+    <!-- Install Prompt Bottom Sheet -->
+    <div id="installPrompt" class="install-prompt hidden">
+        <div class="glass-effect rounded-xl p-5 max-w-sm border border-white/50">
+            <div class="flex items-center mb-4">
+                <div class="w-12 h-12 rounded-full flex items-center justify-center mr-4"
+                    style="background: var(--alice-blue);">
+                    <i class="fas fa-download text-xl" style="color: var(--primary-brand);"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-gradient text-lg">Instalar App</h3>
+                    <p class="text-sm" style="color: var(--text-main);">Acesso rápido e offline</p>
+                </div>
+            </div>
+            <div class="flex space-x-3">
+                <button id="installBtn"
+                    class="flex-1 py-2.5 px-4 rounded-full font-semibold transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                    style="background: var(--primary-brand); color: white;">
+                    Instalar
+                </button>
+                <button id="dismissInstallBtn"
+                    class="py-2.5 px-4 rounded-full font-medium transition-colors hover:bg-gray-50"
+                    style="color: var(--text-muted);">
+                    Depois
+                </button>
+            </div>
+        </div>
+    </div>
 
-        if (installBtn) {
+    <!-- Survey Modal -->
+    <div id="surveyModal" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div
+                class="glass-effect rounded-2xl w-full max-w-4xl h-[85vh] flex flex-col relative border border-white/50">
+                <button onclick="closeSurvey()"
+                    class="absolute -top-3 -right-3 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-lg hover:bg-gray-100 transition-colors"
+                    style="color: var(--text-heading);">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="p-6 h-full flex flex-col">
+                    <div class="text-center mb-4">
+                        <h2 class="text-2xl font-bold text-gradient">Avaliar Sistema</h2>
+                        <p class="text-sm" style="color: var(--text-main);">Sua opinião é fundamental para melhorarmos!
+                        </p>
+                    </div>
+                    <div class="flex-1 rounded-xl overflow-hidden bg-white shadow-inner">
+                        <iframe id="surveyFrame" src="https://form.jotform.com/260104965746057" frameborder="0"
+                            style="width:100%; height:100%; border:none;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Apps Database
+        const apps = [
+            {
+                id: 1,
+                name: "Calendário Vivo",
+                category: "educação",
+                icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📅</text></svg>",
+                images: [],
+                description: "Acompanhe feriados, eventos escolares e organize seu planejamento pedagógico.",
+                longDescription: "Acompanhe feriados, eventos escolares e organize seu planejamento pedagógico em uma visão interativa. Ideal para manter-se organizado durante o ano letivo.",
+                developer: "Prof Digital",
+                size: "Web",
+                version: "2026.1",
+                rating: 4.8,
+                downloads: "1k+",
+                price: "Grátis",
+                featured: false,
+                link: "https://cal2026-beryl.vercel.app/",
+                qr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cal2026-beryl.vercel.app/"
+            },
+            {
+                id: 2,
+                name: "Centelha App",
+                category: "educação",
+                icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>",
+                images: [],
+                description: "Assistente criativo pessoal com IA para gerar atividades inovadoras.",
+                longDescription: "O Centelha App é o seu assistente criativo pessoal. Utilizando inteligência artificial de ponta, ele gera ideias inovadoras para atividades em sala de aula, sugere estratégias de engajamento personalizadas e ajuda a superar bloqueios criativos.",
+                developer: "Prof Digital",
+                size: "Web",
+                version: "2.0",
+                rating: 4.9,
+                downloads: "5k+",
+                price: "Grátis",
+                featured: true,
+                link: "https://escolasergio4-lang.github.io/centelha-app/",
+                qr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://escolasergio4-lang.github.io/centelha-app/"
+            },
+            {
+                id: 3,
+                name: "ClassNote",
+                category: "educação",
+                icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>",
+                images: [],
+                description: "Gestão de sala de aula: registre ocorrências, notas e observações.",
+                longDescription: "A gestão da sala de aula nunca foi tão fácil. Registre ocorrências, notas de comportamento e observações importantes sobre seus alunos de forma rápida e prática.",
+                developer: "VC Dev",
+                size: "Web",
+                version: "1.2",
+                rating: 4.7,
+                downloads: "2k+",
+                price: "Grátis",
+                featured: true,
+                link: "https://vcdevapps-cyber.github.io/classnoteprof/",
+                qr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://vcdevapps-cyber.github.io/classnoteprof/"
+            },
+            {
+                id: 4,
+                name: "Conteúdos BNCC",
+                category: "educação",
+                icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>",
+                images: [],
+                description: "Acesse rapidamente textos, habilidades e competências da BNCC.",
+                longDescription: "Acesse rapidamente textos, habilidades e competências de todas as disciplinas do Ensino Fundamental II, facilitando o alinhamento de suas aulas com a Base Nacional Comum Curricular.",
+                developer: "Prof Digital",
+                size: "Web",
+                version: "1.0",
+                rating: 4.6,
+                downloads: "800+",
+                price: "Grátis",
+                featured: false,
+                link: "https://bncc-salinas-sergio.surge.sh/",
+                qr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://bncc-salinas-sergio.surge.sh/"
+            },
+            {
+                id: 5,
+                name: "Corretor de Provas IA",
+                category: "educação",
+                icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✅</text></svg>",
+                images: [],
+                description: "Correção automática de provas usando fotos do gabarito.",
+                longDescription: "Tire uma foto do gabarito e das provas, e deixe que o sistema faça a correção automática. Economize tempo precioso na correção de avaliações.",
+                developer: "Prof Digital",
+                size: "Web",
+                version: "Beta",
+                rating: 4.5,
+                downloads: "500+",
+                price: "Grátis",
+                featured: true,
+                link: "https://corretor-provas-ia.pages.dev/",
+                qr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://corretor-provas-ia.pages.dev/"
+            },
+            {
+                id: 6,
+                name: "EduFilmes",
+                category: "educação",
+                icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>",
+                images: [],
+                description: "Curadoria de conteúdo audiovisual para sala de aula.",
+                longDescription: "Projetado para auxiliar professores na curadoria de conteúdo audiovisual para sala de aula. Encontre filmes e vídeos educativos adequados para suas aulas.",
+                developer: "Prof Digital",
+                size: "Web",
+                version: "1.0",
+                rating: 4.7,
+                downloads: "1.2k+",
+                price: "Grátis",
+                featured: false,
+                link: "https://pleasant-current.surge.sh/",
+                qr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://pleasant-current.surge.sh/"
+            },
+            {
+                id: 7,
+                name: "Geradores",
+                category: "educação",
+                icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>",
+                images: [],
+                description: "Geradores de currículos, documentos e atividades personalizadas.",
+                longDescription: "Acesse geradores de currículos, documentos escolares, atividades personalizadas e muito mais. Ferramentas rápidas para facilitar o dia a dia.",
+                developer: "NekoWeb",
+                size: "Web",
+                version: "1.0",
+                rating: 4.4,
+                downloads: "3k+",
+                price: "Grátis",
+                featured: false,
+                link: "https://educ.nekoweb.org/geradores/home.html",
+                qr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://educ.nekoweb.org/geradores/home.html"
+            },
+            {
+                id: 8,
+                name: "Geradoria",
+                category: "educação",
+                icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✍️</text></svg>",
+                images: [],
+                description: "Crie planos de aula e sequências didáticas alinhadas à BNCC.",
+                longDescription: "Simplifique seu planejamento com o Geradoria. Crie planos de aula completos, sequências didáticas detalhadas e avaliações precisas, tudo alinhado à BNCC.",
+                developer: "Prof Digital",
+                size: "Web",
+                version: "2.1",
+                rating: 4.9,
+                downloads: "4k+",
+                price: "Grátis",
+                featured: true,
+                link: "https://escolasergio4-lang.github.io/planejadorai/",
+                qr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://escolasergio4-lang.github.io/planejadorai/"
+            },
+            {
+                id: 9,
+                name: "Minhas Metas",
+                category: "educação",
+                icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>",
+                images: [],
+                description: "Defina metas claras e acompanhe seu progresso profissional.",
+                longDescription: "Transforme seus objetivos profissionais em realidade. Defina metas claras e acompanhe seu progresso. Disponível nativamente para Android e iOS.",
+                developer: "Prof Digital",
+                size: "Web/App",
+                version: "1.5",
+                rating: 4.8,
+                downloads: "2.5k+",
+                price: "Grátis",
+                featured: true,
+                link: "https://escolasergio4-lang.github.io/minhasmetas/",
+                qr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://escolasergio4-lang.github.io/minhasmetas/"
+            },
+            {
+                id: 10,
+                name: "PROA",
+                category: "educação",
+                icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>",
+                images: [],
+                description: "Recursos e orientações para professores alfabetizadores.",
+                longDescription: "Prática de Orientação na Alfabetização. Recursos e orientações essenciais para apoiar professores alfabetizadores em sua jornada.",
+                developer: "Prof Digital",
+                size: "Web",
+                version: "5.2",
+                rating: 4.6,
+                downloads: "900+",
+                price: "Grátis",
+                featured: false,
+                link: "https://proa-5-2.pages.dev/",
+                qr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://proa-5-2.pages.dev/"
+            },
+            {
+                id: 11,
+                name: "Professor News",
+                category: "educação",
+                icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📰</text></svg>",
+                images: [],
+                description: "Notícias da educação e atualizações da Agência Brasil.",
+                longDescription: "Agregador de notícias focado em educação, trazendo as últimas atualizações da Agência Brasil e outras fontes relevantes para educadores.",
+                developer: "Prof Digital",
+                size: "Web",
+                version: "1.0",
+                rating: 4.3,
+                downloads: "600+",
+                price: "Grátis",
+                featured: false,
+                link: "https://professor-news.surge.sh/",
+                qr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://professor-news.surge.sh/"
+            },
+            {
+                id: 12,
+                name: "Versão Desktop",
+                category: "educação",
+                icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪟</text></svg>",
+                images: [],
+                description: "Instalador para Windows. Utilize offline.",
+                longDescription: "Baixe o instalador para Windows e utilize as ferramentas sem depender de internet. Uma solução robusta para ambientes sem conectividade.",
+                developer: "Prof Digital",
+                size: "EXE",
+                version: "Win",
+                rating: 4.9,
+                downloads: "1k+",
+                price: "Grátis",
+                featured: false,
+                link: "https://drive.google.com/file/d/1kxs_k9tQXgKVHN60fyteJRFEHB2zxOUU/view?usp=drive_link",
+                qr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://drive.google.com/file/d/1kxs_k9tQXgKVHN60fyteJRFEHB2zxOUU/view?usp=drive_link"
+            }
+        ];
+
+        // Categories
+        const categories = ["educação"];
+
+        // Initialize the app
+        // Initialize the app
+        let currentCategory = "educação";
+        let searchQuery = "";
+        let deferredPrompt;
+        let installPromptShown = false;
+
+        function initializeApp() {
+            renderCategories();
+            renderApps();
+            setupEventListeners();
+            setupPWA();
+        }
+
+        // Survey Functions
+        function openSurvey() {
+            document.getElementById('surveyModal').classList.remove('hidden');
+        }
+
+        function closeSurvey() {
+            document.getElementById('surveyModal').classList.add('hidden');
+        }
+
+        // Setup PWA
+        function setupPWA() {
+            // Service Worker registration
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js').catch(console.error);
+            }
+
+            // Install prompt logic
             window.addEventListener('beforeinstallprompt', (e) => {
-                // Previne o prompt automático antigo do Chrome
                 e.preventDefault();
-                // Guarda o evento para usar depois
                 deferredPrompt = e;
-                // Mostra o botão de instalar
-                installBtn.style.display = 'flex';
+
+                // Show Header/Menu Install Buttons
+                const headerBtn = document.getElementById('headerInstallBtn');
+                const mobileBtn = document.getElementById('mobileInstallBtn');
+
+                if (headerBtn) headerBtn.classList.remove('hidden');
+                if (headerBtn) headerBtn.classList.add('flex');
+
+                if (mobileBtn) mobileBtn.classList.remove('hidden');
+                if (mobileBtn) mobileBtn.classList.add('flex');
+
+                // Show bottom prompt if not dismissed
+                setTimeout(() => {
+                    if (!installPromptShown && !localStorage.getItem('installPromptDismissed')) {
+                        showInstallPrompt();
+                    }
+                }, 3000);
             });
 
-            installBtn.addEventListener('click', async () => {
+            // Handle install actions
+            const installAction = async () => {
                 if (deferredPrompt) {
-                    // Mostra o prompt de instalação nativo
                     deferredPrompt.prompt();
-                    // Espera a escolha do usuário
                     const { outcome } = await deferredPrompt.userChoice;
-                    console.log(`User response to install prompt: ${outcome}`);
-                    // Limpa a variável
                     deferredPrompt = null;
-                    // Esconde o botão novamente
-                    installBtn.style.display = 'none';
+                    hideInstallPrompt();
+
+                    // Hide buttons if accepted
+                    if (outcome === 'accepted') {
+                        document.getElementById('headerInstallBtn')?.classList.add('hidden');
+                        document.getElementById('mobileInstallBtn')?.classList.add('hidden');
+                    }
                 }
+            };
+
+            // Bind all install buttons
+            document.getElementById('installBtn').addEventListener('click', installAction);
+            document.getElementById('headerInstallBtn')?.addEventListener('click', installAction);
+            document.getElementById('mobileInstallBtn')?.addEventListener('click', installAction);
+
+            // Handle dismiss button
+            document.getElementById('dismissInstallBtn').addEventListener('click', () => {
+                localStorage.setItem('installPromptDismissed', 'true');
+                hideInstallPrompt();
+            });
+
+            // App Installed Event
+            window.addEventListener('appinstalled', () => {
+                console.log('App successfully installed');
+                document.getElementById('headerInstallBtn')?.classList.add('hidden');
+                document.getElementById('mobileInstallBtn')?.classList.add('hidden');
+                hideInstallPrompt();
+                deferredPrompt = null;
             });
         }
 
-        // Se o app já estiver instalado (Standalone), garante que o botão suma
-        window.addEventListener('appinstalled', () => {
-            if(installBtn) installBtn.style.display = 'none';
-            deferredPrompt = null;
-            console.log('PWA was installed');
-        });
+        function showInstallPrompt() {
+            const prompt = document.getElementById('installPrompt');
+            prompt.classList.remove('hidden');
+            installPromptShown = true;
+        }
+
+        function hideInstallPrompt() {
+            const prompt = document.getElementById('installPrompt');
+            prompt.classList.add('hidden');
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('categoriesContainer');
+            container.innerHTML = categories.map(category => `
+                <button onclick="filterByCategory('${category}')" 
+                        class="category-pill px-5 py-2.5 rounded-full whitespace-nowrap text-sm font-medium ${category === currentCategory
+                    ? 'shadow-md ring-2 ring-offset-1 ring-blue-200'
+                    : 'hover:bg-white'
+                }" style="${category === currentCategory
+                    ? 'background-color: var(--primary-brand); color: white;'
+                    : 'background-color: rgba(255,255,255,0.6); color: var(--text-heading); border: 1px solid var(--border-subtle);'
+                }">
+                    ${category.charAt(0).toUpperCase() + category.slice(1)}
+                </button>
+            `).join('');
+        }
+
+        function renderApps() {
+            const featuredContainer = document.getElementById('featuredApps');
+            const allContainer = document.getElementById('allApps');
+
+            let filteredApps = apps;
+
+            // Filter by category
+            if (currentCategory !== "todos") {
+                filteredApps = filteredApps.filter(app => app.category === currentCategory);
+            }
+
+            // Filter by search
+            if (searchQuery) {
+                filteredApps = filteredApps.filter(app =>
+                    app.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    app.description.toLowerCase().includes(searchQuery.toLowerCase())
+                );
+            }
+
+            // Render featured apps
+            const featuredApps = filteredApps.filter(app => app.featured);
+            featuredContainer.innerHTML = featuredApps.map(app => createAppCard(app, 'featured')).join('');
+
+            // Render all apps
+            const allAppsList = filteredApps.filter(app => !app.featured);
+            allContainer.innerHTML = allAppsList.map(app => createAppCard(app, 'regular')).join('');
+        }
+
+        function createAppCard(app, type) {
+            const cardClass = type === 'featured'
+                ? 'rounded-lg shadow-lg p-6 app-card cursor-pointer'
+                : 'rounded-lg shadow-md p-4 app-card cursor-pointer';
+
+            return `
+                <div class="${cardClass} group" onclick="showAppDetail(${app.id})">
+                    <div class="flex items-center mb-4">
+                        <img src="${app.icon}" alt="${app.name}" class="w-16 h-16 rounded-2xl mr-4 shadow-sm group-hover:shadow-md transition-shadow">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg text-gray-800" style="color: var(--text-heading);">${app.name}</h3>
+                            <p class="text-xs font-medium uppercase tracking-wide" style="color: var(--primary-brand);">${app.developer}</p>
+                        </div>
+                    </div>
+                    <p class="mb-4 text-sm line-clamp-2 leading-relaxed" style="color: var(--text-main); opacity: 0.85;">${app.description}</p>
+                    <div class="flex items-center justify-between pt-2 border-t border-gray-100" style="border-color: var(--border-subtle);">
+                        <div class="flex items-center">
+                            <div class="flex text-yellow-500 text-xs">
+                                ${generateStars(app.rating)}
+                            </div>
+                            <span class="ml-1.5 text-xs font-bold" style="color: var(--text-heading);">${app.rating}</span>
+                        </div>
+                        <span class="text-xs font-semibold px-2 py-1 rounded-md" style="background: var(--alice-blue); color: var(--primary-brand);">${app.price}</span>
+                    </div>
+                    <div class="mt-3 flex items-center text-xs" style="color: var(--text-muted);">
+                        <i class="fas fa-download mr-1"></i> ${app.downloads}
+                        <span class="mx-2">•</span>
+                        <span>${app.size}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            let stars = '';
+
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+
+            if (hasHalfStar && fullStars < 5) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+
+            return stars;
+        }
+
+        function showAppDetail(appId) {
+            const app = apps.find(a => a.id === appId);
+            if (!app) return;
+
+            const modal = document.getElementById('appModal');
+            const modalContent = document.getElementById('modalContent');
+
+            modalContent.innerHTML = `
+                <div class="relative">
+                    <button onclick="closeModal()" class="absolute -top-2 -right-2 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-md hover:bg-gray-100 transition-colors" style="color: var(--text-heading);">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    
+                    <div class="bg-white/90 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-white/60">
+                        <div class="flex items-center mb-8">
+                            <img src="${app.icon}" alt="${app.name}" class="w-24 h-24 rounded-2xl mr-6 shadow-lg">
+                            <div class="flex-1">
+                                <h2 class="text-3xl font-bold mb-1" style="color: var(--text-heading);">${app.name}</h2>
+                                <p class="font-medium text-lg mb-2" style="color: var(--primary-brand);">${app.developer}</p>
+                                <div class="flex items-center">
+                                    <div class="flex text-yellow-500 text-sm">
+                                        ${generateStars(app.rating)}
+                                    </div>
+                                    <span class="ml-2 text-sm font-semibold" style="color: var(--text-heading);">${app.rating} • ${app.downloads} downloads</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <h3 class="font-bold mb-3 text-lg" style="color: var(--text-heading);">Sobre o app</h3>
+                            <p class="leading-relaxed text-gray-700" style="color: var(--text-main);">${app.longDescription}</p>
+                        </div>
+
+                        ${app.qr ? `
+                        <div class="mb-8 flex justify-center">
+                            <div class="bg-white p-4 rounded-xl shadow-lg border border-blue-100 text-center">
+                                <span class="text-sm font-bold block mb-2" style="color: var(--text-muted);">Acesse no Celular</span>
+                                <img src="${app.qr}" alt="QR Code ${app.name}" class="w-32 h-32 mx-auto">
+                            </div>
+                        </div>
+                        ` : ''}
+                        
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                            <div class="p-4 rounded-xl text-center transition-transform hover:scale-105" style="background: var(--alice-blue);">
+                                <span class="text-xs font-bold uppercase tracking-wider block mb-1" style="color: var(--text-muted);">Tamanho</span>
+                                <p class="font-bold" style="color: var(--text-heading);">${app.size}</p>
+                            </div>
+                            <div class="p-4 rounded-xl text-center transition-transform hover:scale-105" style="background: var(--alice-blue);">
+                                <span class="text-xs font-bold uppercase tracking-wider block mb-1" style="color: var(--text-muted);">Versão</span>
+                                <p class="font-bold" style="color: var(--text-heading);">${app.version}</p>
+                            </div>
+                            <div class="p-4 rounded-xl text-center transition-transform hover:scale-105" style="background: var(--alice-blue);">
+                                <span class="text-xs font-bold uppercase tracking-wider block mb-1" style="color: var(--text-muted);">Categoria</span>
+                                <p class="font-bold truncate" style="color: var(--text-heading);">${app.category.charAt(0).toUpperCase() + app.category.slice(1)}</p>
+                            </div>
+                            <div class="p-4 rounded-xl text-center transition-transform hover:scale-105" style="background: var(--alice-blue);">
+                                <span class="text-xs font-bold uppercase tracking-wider block mb-1" style="color: var(--text-muted);">Preço</span>
+                                <p class="font-bold" style="color: var(--text-heading);">${app.price}</p>
+                            </div>
+                        </div>
+                        
+                        ${app.images && app.images.length > 0 ? `
+                        <div class="mb-8">
+                            <h3 class="font-bold mb-4 text-lg" style="color: var(--text-heading);">Galeria</h3>
+                            <div class="flex space-x-3 overflow-x-auto pb-4 scroll-container">
+                                ${app.images.map(img => `
+                                    <img src="${img}" alt="Screenshot" class="h-48 rounded-xl shadow-lg border-2 border-transparent hover:border-blue-200 transition-all">
+                                `).join('')}
+                            </div>
+                        </div>
+                        ` : ''}
+                        
+                        <div class="flex space-x-4 pt-4 border-t" style="border-color: var(--border-subtle);">
+                            <a href="${app.link}" target="_blank" 
+                               class="flex-1 py-4 px-6 rounded-xl font-bold text-center glow-effect transition-all shadow-lg transform hover:-translate-y-1 hover:shadow-xl" 
+                               style="background: var(--primary-brand); color: white;">
+                                <i class="fas fa-download mr-2"></i>
+                                Baixar Agora
+                            </a>
+                            <button onclick="closeModal()" 
+                                    class="px-8 py-4 rounded-xl font-bold transition-all hover:bg-gray-100"
+                                    style="color: var(--text-heading); background: var(--alice-blue);">
+                                Fechar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('appModal').classList.add('hidden');
+        }
+
+        function filterByCategory(category) {
+            currentCategory = category;
+            renderCategories();
+            renderApps();
+        }
+
+        function setupEventListeners() {
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            const mobileSearchInput = document.getElementById('mobileSearchInput');
+
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    searchQuery = e.target.value;
+                    renderApps();
+                });
+            }
+
+            if (mobileSearchInput) {
+                mobileSearchInput.addEventListener('input', (e) => {
+                    searchQuery = e.target.value;
+                    renderApps();
+                });
+            }
+
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileSearch = document.getElementById('mobileSearch');
+
+            if (mobileMenuBtn && mobileSearch) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileSearch.classList.toggle('hidden');
+                });
+            }
+
+            // Close modal on background click
+            document.getElementById('appModal').addEventListener('click', (e) => {
+                if (e.target.id === 'appModal') {
+                    closeModal();
+                }
+            });
+
+            // Close modal on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+
+            // Handle online/offline status
+            window.addEventListener('online', () => {
+                console.log('App is online');
+            });
+
+            window.addEventListener('offline', () => {
+                console.log('App is offline');
+            });
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
 </body>
 
